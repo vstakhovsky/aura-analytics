@@ -1,16 +1,17 @@
 name: ci
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  push: { branches: [ "main" ] }
+  pull_request: { branches: [ "main" ] }
 jobs:
   api:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+        with: { python-version: '3.11' }
       - run: pip install -r backend/requirements.txt
+      - run: pip install pytest ruff mypy httpx
       - run: python -m compileall backend
+      - run: ruff check backend
+      - run: mypy --ignore-missing-imports backend
+      - run: pytest -q

@@ -4,6 +4,8 @@ services:
     container_name: aura-api
     ports:
       - "8000:8000"
+    environment:
+      - AURA_ENV=dev
+    restart: unless-stopped
     volumes:
       - ./backend:/app
-    depends_on: []

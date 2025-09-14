@@ -1,0 +1,13 @@
+.git
+__pycache__/
+*.py[cod]
+.vscode/
+.idea/
+.env
+dist/
+build/
+reports/
+.cache/
+.pytest_cache/
+sample_data/*
+!sample_data/ide_sessions.csv
