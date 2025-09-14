@@ -1,0 +1,37 @@
+version: 0.1
+name: "AURA Analytics"
+summary: "Privacy-first analytics & insights for developer productivity and continuous learning."
+owners:
+  - role: product_manager
+    name: "Owner TBA"
+lifecycle:
+  stage: mvp
+  sdd: true
+problem:
+  statement: "Enterprises need customizable, privacy-first insights into developer effectiveness and learning trends."
+users:
+  - key: dpe_manager
+    goals: ["Increase adoption", "Monitor usage", "Drive continuous learning"]
+non_functional:
+  privacy: ["pseudonymization", "on-prem friendly"]
+  slo:
+    dashboard_p95_latency_ms: 2000
+data_contracts:
+  - docs/data_contracts/ide_sessions.md
+  - docs/data_contracts/ide_actions.md
+  - docs/data_contracts/ide_provisioning.md
+  - docs/data_contracts/license_management.md
+  - docs/data_contracts/collaboration_sessions.md
+  - docs/data_contracts/ai_features_usage.md
+metrics_registry: docs/metrics/registry.md
+api:
+  endpoints:
+    - GET /health
+    - POST /ingest
+    - POST /analyze
+    - GET /insights
+    - GET /report
+acceptance_criteria:
+  - "Can ingest sample data and compute Metrics v1"
+  - "Produces at least 3 actionable insights with confidence"
+  - "Exports Markdown report"

@@ -1,0 +1,18 @@
+version: 0.1
+architecture:
+  components:
+    ingest: "file upload + event receiver"
+    storage: "Postgres + object store"
+    metrics: "SQL views + materializations"
+    insights: "Rule-based engine (Python)"
+    api: "FastAPI"
+    ui: "Next.js (TBD)"
+privacy_security:
+  pii: "no raw PII; hashed user identifiers"
+  residency: "configurable storage and TTL"
+observability:
+  logging: "structured, JSON"
+  tracing: "OpenTelemetry (future)"
+deploy:
+  local: "docker compose"
+  prod: "containerized, on-prem friendly"

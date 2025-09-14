@@ -1,0 +1,17 @@
+version: 0.1
+tasks:
+  - key: ingest:file_upload
+    desc: "Implement /ingest to accept CSV/JSON and persist to Postgres"
+    accept: ["Upload sample files", "Rows land in ide_* tables"]
+  - key: metrics:compute_v1
+    desc: "Create SQL for AS, ARp, AIcov, CWS, ProvOK"
+    accept: ["Metrics computed for sample dataset", "Unit tests green"]
+  - key: insights:rules_v1
+    desc: "Baseline insight rules for trends/anomalies and adoption gaps"
+    accept: ["At least 3 insights with confidence scores"]
+  - key: api:endpoints_v1
+    desc: "Expose /health /ingest /analyze /insights /report"
+    accept: ["OpenAPI shows endpoints", "Smoke tests pass"]
+  - key: reports:markdown_v1
+    desc: "Generate Markdown report with metrics and insights"
+    accept: ["Downloadable .md in /reports"]
