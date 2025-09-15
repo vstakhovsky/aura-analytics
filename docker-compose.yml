@@ -2,10 +2,21 @@ services:
   api:
     build: .
     container_name: aura-api
+    environment:
+      - AURA_DATA_DIR=/var/aura
+    volumes:
+      - ./var:/var/aura
     ports:
       - "8000:8000"
+
+  web:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    container_name: aura-web
     environment:
-      - AURA_ENV=dev
-    restart: unless-stopped
-    volumes:
-      - ./backend:/app
+      - NEXT_PUBLIC_API_BASE=http://api:8000
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
