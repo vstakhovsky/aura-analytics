@@ -8,15 +8,20 @@ services:
       - ./var:/var/aura
     ports:
       - "8000:8000"
+        # строка ниже необязательна, если CMD уже задан в backend/Dockerfile
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
-  web:
+  ui:
     build:
       context: ./ui
       dockerfile: Dockerfile
-    container_name: aura-web
+    container_name: aura-ui
     environment:
       - NEXT_PUBLIC_API_BASE=http://api:8000
     depends_on:
       - api
     ports:
       - "3000:3000"
+    # опционально для hot-reload (если хочешь править UI локально и видеть изменения без пересборки)
+    # volumes:
+    #   - ./ui:/app
