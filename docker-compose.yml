@@ -1,26 +1,27 @@
 # docker-compose.yml
 services:
   api:
-    # Build FastAPI service from repo root
+    # Build FastAPI service from repo root (uses your root Dockerfile)
     build: .
     container_name: aura-api
     environment:
-      - AURA_DATA_DIR=/var/aura   # where API may store data
+      - AURA_DATA_DIR=/var/aura          # path seen INSIDE the container
     volumes:
-      - ./.var:/var/aura          # persist data locally in ./.var
-    ports:
-      - "8000:8000"               # expose API on localhost:8000
+      - ./.var:/var/aura                 # persist data locally under ./ .var
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
 
   ui:
-    # Build Next.js app from ./ui subfolder
+    # Build Next.js app from ./ui
     build:
       context: ./ui
       dockerfile: Dockerfile
     container_name: aura-ui
     environment:
-      - NEXT_PUBLIC_API_BASE=http://api:8000  # UI -> API internal URL (service name)
+      # UI → API base URL using Docker DNS (service name "api")
+      - NEXT_PUBLIC_API_BASE=http://api:8000
     depends_on:
       - api
     ports:
-      - "3000:3000"               # expose UI on localhost:3000
+      - "3000:3000"
