@@ -1,28 +1,57 @@
-# .github/workflows/ci.yml 
+name: ci
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
   api:
     runs-on: ubuntu-latest
+
+    # Global env for this job
     env:
-      PYTHONPATH: backend
+      PYTHONPATH: backend                     # let tests import app from backend/
+      AURA_DATA_DIR: ${{ github.workspace }}/.var/aura  # writable folder in workspace
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      - name: Install system libs for WeasyPrint
+          python-version: "3.11"
+
+      - name: Prepare system libs for WeasyPrint (optional)
+        # Install a few libs that HTML→PDF engines may need; safe if not used
         run: |
           sudo apt-get update
-          sudo apt-get install -y \
-            libcairo2 \
-            libpango-1.0-0 \
-            libpangocairo-1.0-0 \
-            libgdk-pixbuf-2.0-0 \
-            libffi-dev \
-            shared-mime-info \
-            fonts-liberation
-      - run: python -m pip install --upgrade pip
-      - run: pip install -r backend/requirements.txt
-      - run: pip install pytest ruff mypy httpx
-      - run: python -m compileall backend
-      - run: ruff check backend || true
-      - run: mypy --ignore-missing-imports backend || true
-      - run: pytest -q
+          sudo apt-get install -y --no-install-recommends \
+            libpango-1.0-0 libgdk-pixbuf-2.0-0 libcairo2
+
+      - name: Create data dir
+        # Make sure AURA_DATA_DIR exists and is writable
+        run: mkdir -p "$AURA_DATA_DIR"
+
+      - name: Install Python deps
+        # Include tools used in later steps (pytest, ruff, mypy, httpx)
+        run: |
+          pip install --upgrade pip
+          pip install -r backend/requirements.txt
+          pip install pytest ruff mypy httpx
+
+      - name: Byte-compile (sanity)
+        run: python -m compileall backend
+
+      - name: Ruff (non-blocking)
+        # Run linter but do not fail the build on warnings
+        run: ruff check backend || true
+
+      - name: Mypy (non-blocking)
+        # Type check, also non-blocking for now
+        run: mypy --ignore-missing-imports backend || true
+
+      - name: Pytest
+        run: pytest -q
