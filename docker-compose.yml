@@ -1,27 +1,26 @@
+# docker-compose.yml
 services:
   api:
+    # Build FastAPI service from repo root
     build: .
     container_name: aura-api
     environment:
-      - AURA_DATA_DIR=/var/aura
+      - AURA_DATA_DIR=/var/aura   # where API may store data
     volumes:
-      - ./var:/var/aura
+      - ./.var:/var/aura          # persist data locally in ./.var
     ports:
-      - "8000:8000"
-        # строка ниже необязательна, если CMD уже задан в backend/Dockerfile
+      - "8000:8000"               # expose API on localhost:8000
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
 
   ui:
+    # Build Next.js app from ./ui subfolder
     build:
       context: ./ui
       dockerfile: Dockerfile
     container_name: aura-ui
     environment:
-      - NEXT_PUBLIC_API_BASE=http://api:8000
+      - NEXT_PUBLIC_API_BASE=http://api:8000  # UI -> API internal URL (service name)
     depends_on:
       - api
     ports:
-      - "3000:3000"
-    # опционально для hot-reload (если хочешь править UI локально и видеть изменения без пересборки)
-    # volumes:
-    #   - ./ui:/app
+      - "3000:3000"               # expose UI on localhost:3000
