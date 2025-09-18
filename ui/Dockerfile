@@ -1,23 +1,24 @@
-# ui/Dockerfile
-
+# ui/Dockerfile  (English comments)
 FROM node:20-alpine
 
-# Use development env by default (can be overridden in compose)
-ENV NODE_ENV=development
+# Make the dev server bind to all interfaces and be deterministic in CI
+ENV NODE_ENV=development \
+    HOST=0.0.0.0 \
+    PORT=3000 \
+    NEXT_TELEMETRY_DISABLED=1
 
 # App working directory
 WORKDIR /app
 
-# 1) Install deps: copy lockfile if present, then ci | install
+# Install deps first (use lockfile if present)
 COPY package*.json ./
 RUN npm ci --omit=optional || npm install --no-audit --no-fund
 
-# 2) Copy the rest of the app
-COPY . /app
+# Copy the rest of the app
+COPY . .
 
-# 3) Next.js must listen on all interfaces inside container
-ENV HOST=0.0.0.0
+# Expose Next dev port
 EXPOSE 3000
 
-# 4) Start dev server (bind to 0.0.0.0 so port mapping works)
-CMD ["npm", "run", "dev", "--", "-H", "0.0.0.0", "-p", "3000"]
+# Start Next.js dev server listening on all interfaces
+CMD ["sh","-lc","npm run dev -- -H $HOST -p $PORT"]
