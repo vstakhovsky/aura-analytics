@@ -2,13 +2,12 @@ name: Ajv Schema Validation
 
 on:
   push:
-    branches: [ chore/ci-ajv-validate ]
   pull_request:
-    branches: [ main ]
 
 jobs:
   schema-validate:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -16,17 +15,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
 
       - name: Install Ajv CLI
-        run: |
-          npm i -g ajv-cli@5
+        run: npm i -g ajv-cli@5
 
       - name: Versions
         run: |
           node -v
           npm -v
-          ajv -v
+          ajv --version
 
       - name: Validate JSON Schemas (report -> insight/hypothesis)
         run: |
