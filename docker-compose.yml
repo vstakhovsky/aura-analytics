@@ -4,6 +4,24 @@ services:
     # Build FastAPI service from repo root
     build: .
     container_name: aura-api
+<<<<<<< HEAD
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+
+  ui:
+    build:
+      context: ./ui
+    container_name: aura-ui
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - api
+=======
     environment:
       - AURA_DATA_DIR=/var/aura        # where API may store data
     volumes:
@@ -29,3 +47,4 @@ services:
       - "3000:3000"                   # expose UI on localhost:3000
     # IMPORTANT: no volumes here, so we don't shadow node_modules in container
 
+>>>>>>> origin/main
