@@ -1,27 +1,16 @@
 {
-  "$id": "https://aura/schemas/hypothesis.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aura/schemas/hypothesis.schema.json",
   "type": "object",
-  "required": ["id","title","problem","domain","stakeholders","beneficiaries","data_available","confidence","metrics","complexity","risks","constraints","priority","summary"],
+  "required": ["id","title","problem","domain","metrics","complexity","summary"],
   "properties": {
-    "id":            { "type": "string" },
-    "title":         { "type": "string" },
-    "problem":       { "type": "string" },
-    "domain":        { "enum": ["data_quality","anti_fraud","product","financial","system","risk","security","ml_ds"] },
-    "stakeholders":  { "type": "array", "items": { "type":"string" } },
-    "beneficiaries": { "type": "array", "items": { "type":"string" } },
-    "data_available":{ "type": "array", "items": { "type":"string" } },
-    "confidence":    { "type": "number", "minimum": 0, "maximum": 1 },
-    "metrics":       { "type": "array", "items": { "type":"object", "required": ["name"], "properties": {
-                        "name":{"type":"string"}, "baseline":{"type":"number"}, "target":{"type":"number"}, "method":{"type":"string"}
-    } } },
-    "complexity":    { "type": "object", "properties": {
-                        "dev_weeks":{"type":"number"}, "ml_weeks":{"type":"number"}, "infra_weeks":{"type":"number"}
-    } },
-    "risks":         { "type": "array", "items": { "type":"string" } },
-    "constraints":   { "type": "array", "items": { "type":"string" } },
-    "priority":      { "type": "number", "minimum": 0, "maximum": 1 },
-    "summary":       { "type": "string" }
+    "id":        { "type": "string" },
+    "title":     { "type": "string" },
+    "problem":   { "type": "string" },
+    "domain":    { "type": "string", "enum": ["data_quality","product","financial"] },
+    "metrics":   { "type": "array", "items": { "type": "object" }, "default": [] },
+    "complexity":{ "type": "object", "properties": { "dev_weeks": { "type": "integer" } }, "required": ["dev_weeks"] },
+    "summary":   { "type": "string" }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }
