@@ -1,8 +1,8 @@
 name: Ajv Schema Validation
 
 on:
-  pull_request:
   push:
+  pull_request:
 
 jobs:
   schema-validate:
@@ -11,25 +11,21 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Setup Node
-      # Ajv CLI v5 поддерживается на Node 16/18/20; выберем 20 для единообразия
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: Show versions
+      - name: Show versions and files
         run: |
           node -v
           npm -v
-          npx -y ajv-cli@5 --version
+          ls -la spec/schemas
+          ls -la spec/samples
 
-      - name: Validate JSON Schemas (report -> insight/hypothesis)
+      - name: Validate JSON Schemas + sample
         run: |
-          # ВАЖНО: без -c/--code, без -c true
-          # Подключаем ссылочные схемы через -r, валидируем sample
-          npx -y ajv-cli@5 validate \
-            --spec=draft2020 \
-            --strict=false \
-            --allowUnionTypes \
+          npx --yes ajv-cli@5 validate \
+            --spec=draft2020 --strict=false --allowUnionTypes --all-errors \
             -s spec/schemas/report.schema.json \
             -r spec/schemas/insight.schema.json \
             -r spec/schemas/hypothesis.schema.json \
