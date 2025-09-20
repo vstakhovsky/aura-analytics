@@ -1,0 +1,49 @@
+name: Spec & Contracts
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate Spec Book (MD)
+        run: |
+          python scripts/render_spec.py
+          ls -la dist/
+
+      - name: Create PDF from Spec Book
+        run: |
+          npm i -g md-to-pdf@5
+          md-to-pdf dist/specbook.md --output dist/specbook.pdf
+
+      - name: AJV validate JSON contracts (sample)
+        run: |
+          npx --yes ajv-cli@5 compile -s spec/contracts/report.schema.json --spec=draft2020
+          npx --yes ajv-cli@5 compile -s spec/contracts/insight.schema.json --spec=draft2020
+          npx --yes ajv-cli@5 compile -s spec/contracts/hypothesis.schema.json --spec=draft2020
+
+      - name: Run tests (contract conformance)
+        run: |
+          pytest -q
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: specbook-and-report
+          path: |
+            dist/specbook.md
+            dist/specbook.pdf
