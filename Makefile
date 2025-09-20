@@ -1,9 +1,13 @@
-.PHONY: spec test ajv all
+.PHONY: api dev test spec-pdf
 
-spec:
-	python3 scripts/render_spec.py
+api:
+\tPYTHONPATH=. uvicorn api.main:app --reload
+
+dev: api
 
 test:
-	pytest -q
+\tPYTHONPATH=. python -m pytest -q
 
-all: spec test
+spec-pdf:
+\tmkdir -p dist
+\tnpx --yes md-to-pdf docs/spec/book.md dist/spec-book.pdf
