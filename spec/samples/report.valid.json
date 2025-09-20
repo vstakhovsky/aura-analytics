@@ -1,0 +1,39 @@
+{
+  "insights": [
+    {
+      "id": "ins-1",
+      "domain": "product",
+      "title": "Usage spikes on Mondays",
+      "summary": "Users return after weekend.",
+      "confidence": 0.7,
+      "impact": "Plan onboarding nudges on Monday mornings.",
+      "metrics": [{ "name": "weekly_active", "value": 1200, "unit": "users" }],
+      "figures": [{ "caption": "Adoption trend", "path": "figs/adoption_by_week.png" }],
+      "methodology": "Described",
+      "evidence": "Timeseries analysis"
+    }
+  ],
+  "hypotheses": [
+    {
+      "id": "hyp-1",
+      "title": "Personalized tips increase adoption",
+      "problem": "Low sustained engagement",
+      "domain": "product",
+      "stakeholders": ["Product", "Marketing"],
+      "beneficiaries": ["End users"],
+      "data_available": ["events", "sessions"],
+      "confidence": 0.6,
+      "metrics": [
+        { "name": "adoption_rate", "baseline": 0.35, "target": 0.45, "method": "proportion" }
+      ],
+      "complexity": { "dev_weeks": 3, "ml_weeks": 1, "infra_weeks": 1 },
+      "risks": ["Cold start"],
+      "constraints": ["Privacy"],
+      "priority": 0.7,
+      "summary": "Run an experiment with tips"
+    }
+  ],
+  "methodology": "Described",
+  "appendix": "",
+  "validator_scorecard": {}
+}
