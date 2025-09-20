@@ -1,39 +1,16 @@
 {
-  "$id": "https://aura/schemas/hypothesis.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Hypothesis/PRD/Next Step",
+  "$id": "https://aura/schemas/hypothesis.schema.json",
   "type": "object",
-  "required": ["id","title","problem","domain","data_available","metrics","complexity","risks","constraints","priority","summary"],
+  "required": ["id","title","problem","domain","metrics","complexity","summary"],
   "properties": {
-    "id": { "type": "string" },
-    "title": { "type": "string" },
-    "problem": { "type": "string" },
-    "domain": { "type": "string", "enum": ["product","risk","security","financial","data_quality"] },
-    "stakeholders": { "type": "array", "items": { "type": "string" } },
-    "beneficiaries": { "type": "array", "items": { "type": "string" } },
-    "data_available": { "type": "array", "items": { "type": "string" } },
-    "metrics": {
-      "type": "array",
-      "items": { "type": "object", "required": ["name","method"], "properties": {
-        "name": { "type": "string" },
-        "baseline": { "type": ["number","null"] },
-        "target": { "type": ["number","null"] },
-        "method": { "type": "string" }
-      }}
-    },
-    "complexity": {
-      "type": "object",
-      "properties": {
-        "dev_weeks": { "type": "integer", "minimum": 0 },
-        "ml_weeks": { "type": "integer", "minimum": 0 },
-        "infra_weeks": { "type": "integer", "minimum": 0 }
-      },
-      "additionalProperties": false
-    },
-    "risks": { "type": "array", "items": { "type": "string" } },
-    "constraints": { "type": "array", "items": { "type": "string" } },
-    "priority": { "type": "number", "minimum": 0, "maximum": 1 },
-    "summary": { "type": "string" }
+    "id":        { "type": "string" },
+    "title":     { "type": "string" },
+    "problem":   { "type": "string" },
+    "domain":    { "type": "string", "enum": ["data_quality","product","financial"] },
+    "metrics":   { "type": "array", "items": { "type": "object" }, "default": [] },
+    "complexity":{ "type": "object", "properties": { "dev_weeks": { "type": "integer" } }, "required": ["dev_weeks"] },
+    "summary":   { "type": "string" }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }

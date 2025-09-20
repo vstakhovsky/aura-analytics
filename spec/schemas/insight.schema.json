@@ -1,33 +1,41 @@
 {
-  "$id": "https://aura/schemas/insight.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Insight",
+  "$id": "https://aura/schemas/insight.schema.json",
   "type": "object",
-  "required": ["id", "domain", "title", "summary", "confidence", "impact", "metrics", "methodology", "evidence"],
+  "required": ["id","domain","title","summary","confidence","impact","metrics","figures"],
   "properties": {
-    "id": { "type": "string" },
-    "domain": { "type": "string", "enum": ["product","risk","security","financial","data_quality"] },
-    "title": { "type": "string" },
-    "summary": { "type": "string" },
-    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
-    "impact": { "type": "string" },
-    "metrics": {
-      "type": "array",
-      "items": { "type": "object", "required": ["name","value","unit"], "properties": {
-        "name": { "type": "string" },
-        "value": { "type": ["number","integer","string"] },
-        "unit": { "type": "string" }
-      }}
-    },
-    "figures": {
-      "type": "array",
-      "items": { "type": "object", "required": ["caption","path"], "properties": {
-        "caption": { "type": "string" },
-        "path": { "type": "string" }
-      }}
-    },
-    "methodology": { "type": "string" },
-    "evidence": { "type": "string" }
+    "id":         { "type": "string" },
+    "domain":     { "type": "string", "enum": ["data_quality","product","financial"] },
+    "title":      { "type": "string" },
+    "summary":    { "type": "string" },
+    "confidence": { "type": "number" },
+    "impact":     { "type": "string" },
+    "metrics":    { "type": "array", "items": { "$ref": "#/$defs/metric" } },
+    "figures":    { "type": "array", "items": { "$ref": "#/$defs/figure" } },
+    "methodology":{ "type": ["string","null"] },
+    "evidence":   { "type": ["string","null"] }
   },
-  "additionalProperties": false
+  "$defs": {
+    "metric": {
+      "type": "object",
+      "required": ["name","value","unit"],
+      "properties": {
+        "name":   { "type": "string" },
+        "value":  { "type": ["number","integer"] },
+        "unit":   { "type": "string" },
+        "method": { "type": ["string","null"] }
+      },
+      "additionalProperties": true
+    },
+    "figure": {
+      "type": "object",
+      "required": ["caption","path"],
+      "properties": {
+        "caption": { "type": "string" },
+        "path":    { "type": "string" }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
 }

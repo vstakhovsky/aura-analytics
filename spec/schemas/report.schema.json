@@ -1,22 +1,15 @@
 {
-  "$id": "https://aura/schemas/report.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Analytics Report",
+  "$id": "https://aura/schemas/report.schema.json",
   "type": "object",
-  "required": ["id","insights","hypotheses","executive_summary"],
+  "required": ["id","executive_summary","insights","hypotheses","appendix"],
   "properties": {
-    "id": { "type": "string" },
+    "id":                { "type": "string" },
     "executive_summary": { "type": "string" },
-    "insights": {
-      "type": "array",
-      "items": { "$ref": "https://aura/schemas/insight.json" }
-    },
-    "hypotheses": {
-      "type": "array",
-      "items": { "$ref": "https://aura/schemas/hypothesis.json" }
-    },
-    "appendix": { "type": "string" },
+    "insights":          { "type": "array", "items": { "$ref": "insight.schema.json" } },
+    "hypotheses":        { "type": "array", "items": { "$ref": "hypothesis.schema.json" } },
+    "appendix":          { "type": "string" },
     "validator_scorecard": { "type": "object" }
   },
-  "additionalProperties": false
+  "additionalProperties": true
 }
