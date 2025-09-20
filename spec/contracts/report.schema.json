@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aura/schemas/report.schema.json",
+  "type": "object",
+  "required": ["id","executive_summary","insights","hypotheses","appendix"],
+  "properties": {
+    "id":                { "type": "string" },
+    "executive_summary": { "type": "string" },
+    "insights":          { "type": "array", "items": { "$ref": "insight.schema.json" } },
+    "hypotheses":        { "type": "array", "items": { "$ref": "hypothesis.schema.json" } },
+    "appendix":          { "type": "string" },
+    "validator_scorecard": { "type": "object" }
+  },
+  "additionalProperties": true
+}

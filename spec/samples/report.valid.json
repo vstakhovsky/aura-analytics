@@ -1,35 +1,35 @@
 {
   "id": "rep-1",
-  "executive_summary": "Key findings this week.",
+  "executive_summary": "Automated weekly report (demo).",
   "insights": [
     {
-      "id": "ins-1",
-      "domain": "product",
-      "title": "Monday usage spike",
-      "summary": "Users return after weekend; +12% weekly_active.",
-      "confidence": 0.7,
-      "impact": "Plan onboarding nudges on Monday mornings.",
-      "metrics": [{ "name": "weekly_active", "value": 1200, "unit": "users" }],
-      "figures": [{ "caption": "WAU trend", "path": "figs/wau.png" }],
-      "methodology": "Timeseries analysis",
-      "evidence": "Notebook cell #12"
+      "id": "dq-ins-1",
+      "domain": "data_quality",
+      "title": "Null ratio remains stable",
+      "summary": "Share of NULLs in key columns < 0.5% WoW.",
+      "confidence": 0.8,
+      "impact": "Trust in downstream analytics sustained.",
+      "metrics": [
+        { "name": "null_rate_pct", "value": 0.4, "unit": "%", "method": null }
+      ],
+      "figures": [
+        { "caption": "NULL rate trend", "path": "figs/null_rate.png" }
+      ],
+      "methodology": "Daily null scan across fact tables",
+      "evidence": "sql/check_nulls.sql"
     }
   ],
   "hypotheses": [
     {
-      "id": "hyp-1",
-      "title": "Personalized tips increase adoption",
-      "problem": "Low sustained engagement",
+      "id": "prd-hyp-1",
+      "title": "Personalize step 2 CTA",
+      "problem": "Reduce drop at step 2",
       "domain": "product",
-      "stakeholders": ["Product","Marketing"],
-      "beneficiaries": ["End users"],
-      "data_available": ["Events","Sessions"],
-      "metrics": [{ "name": "adoption_rate", "baseline": 0.35, "target": 0.45, "method": "proportion" }],
-      "complexity": { "dev_weeks": 3, "ml_weeks": 1, "infra_weeks": 1 },
-      "risks": ["Cold start"],
-      "constraints": ["Privacy"],
-      "priority": 0.7,
-      "summary": "Run an experiment with tips"
+      "metrics": [
+        { "name": "step2_ctr", "method": "rate" }
+      ],
+      "complexity": { "dev_weeks": 2 },
+      "summary": "A/B test CTA copy on step 2."
     }
   ],
   "appendix": "",

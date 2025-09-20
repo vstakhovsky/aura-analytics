@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aura/schemas/hypothesis.schema.json",
+  "type": "object",
+  "required": ["id","title","problem","domain","metrics","complexity","summary"],
+  "properties": {
+    "id":        { "type": "string" },
+    "title":     { "type": "string" },
+    "problem":   { "type": "string" },
+    "domain":    { "type": "string", "enum": ["data_quality","product","financial"] },
+    "metrics":   { "type": "array", "items": { "type": "object" }, "default": [] },
+    "complexity":{ "type": "object", "properties": { "dev_weeks": { "type": "integer" } }, "required": ["dev_weeks"] },
+    "summary":   { "type": "string" }
+  },
+  "additionalProperties": true
+}
