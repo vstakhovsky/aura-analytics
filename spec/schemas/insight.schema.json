@@ -1,21 +1,33 @@
 {
   "$id": "https://aura/schemas/insight.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Insight",
   "type": "object",
-  "required": ["id", "title", "summary", "domain", "confidence", "impact", "evidence"],
+  "required": ["id", "domain", "title", "summary", "confidence", "impact", "metrics", "methodology", "evidence"],
   "properties": {
-    "id":        { "type": "string" },
-    "domain":    { "enum": ["data_quality","anti_fraud","product","financial","system","risk","security","ml_ds"] },
-    "title":     { "type": "string" },
-    "summary":   { "type": "string" },
-    "confidence":{ "type": "number", "minimum": 0, "maximum": 1 },
-    "impact":    { "type": "string" },
-    "metrics":   { "type": "array", "items": { "type": "object", "required": ["name","value"], "properties": {
-                     "name": {"type":"string"}, "value":{"type":["number","string"]}, "unit":{"type":"string"}, "method":{"type":"string"}
-    } } },
-    "figures":   { "type": "array", "items": { "type":"object", "properties":{ "caption":{"type":"string"}, "path":{"type":"string"} } } },
-    "methodology": { "type":"string" },
-    "evidence":  { "type":"string" }
+    "id": { "type": "string" },
+    "domain": { "type": "string", "enum": ["product","risk","security","financial","data_quality"] },
+    "title": { "type": "string" },
+    "summary": { "type": "string" },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "impact": { "type": "string" },
+    "metrics": {
+      "type": "array",
+      "items": { "type": "object", "required": ["name","value","unit"], "properties": {
+        "name": { "type": "string" },
+        "value": { "type": ["number","integer","string"] },
+        "unit": { "type": "string" }
+      }}
+    },
+    "figures": {
+      "type": "array",
+      "items": { "type": "object", "required": ["caption","path"], "properties": {
+        "caption": { "type": "string" },
+        "path": { "type": "string" }
+      }}
+    },
+    "methodology": { "type": "string" },
+    "evidence": { "type": "string" }
   },
   "additionalProperties": false
 }
