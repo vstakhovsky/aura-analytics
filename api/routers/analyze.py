@@ -5,12 +5,12 @@ router = APIRouter()
 @router.post("/analyze", tags=["analyze"])
 async def analyze_stub():
     """
-    Stub analysis endpoint.
-    Возвращает status=ok и пустые результаты — этого достаточно для текущих e2e-тестов.
+    Возвращаем минимальный, но стабильный для тестов payload.
     """
     return {
         "status": "ok",
-        "insights": [],
-        "hypotheses": [],
-        "report": {}
+        "metrics": [
+            {"key": "AS", "name": "Active Sessions", "value": 123, "unit": "count"},
+            {"key": "CR", "name": "Conversion Rate", "value": 0.42, "unit": "ratio"}
+        ]
     }
