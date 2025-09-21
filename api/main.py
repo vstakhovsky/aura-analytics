@@ -5,11 +5,15 @@ from pathlib import Path
 from api.routers.reporting import router as reporting_router
 from api.routers.health import router as health_router
 from api.routers.upload import router as upload_router
+from api.routers.health import router as health_router
+from api.routers.upload import router as upload_router
 
 app = FastAPI(title="Aura Analytics Demo")
 
 # API routers
-app.include_router(reporting_router)  # /api/run (существующий)
+app.include_router(reporting_router)
+app.include_router(health_router)   # /health
+app.include_router(upload_router)   # /upload/ , /ingest/{upload_id}  # /api/run (существующий)
 app.include_router(health_router)     # /health
 app.include_router(upload_router)     # /upload/ , /ingest/{upload_id}
 

@@ -1,20 +1,20 @@
 from pathlib import Path
 from fastapi import APIRouter
 
-router = APIRouter(tags=["upload"])
+router = APIRouter()
 
-@router.get("/upload/")
+@router.get("/upload/", tags=["upload"])
 def upload_root():
-    # наличие в OpenAPI достаточно для теста
-    return {"ok": True}
+    # для контракта/тестов достаточно присутствия в OpenAPI и статус: ok
+    return {"status": "ok"}
 
-@router.post("/ingest/{upload_id}")
+@router.post("/ingest/{upload_id}", tags=["upload"])
 async def ingest_stub(upload_id: str):
     """
-    Stub ingest: создаёт data/uploads/<upload_id>/ и кладёт маркер _INGEST_OK.
-    Тела запроса не требуется; возвращаем 200.
+    Заглушка ingestion: создаёт data/uploads/<upload_id>/ и кладёт маркер _INGEST_OK.
+    Тело не требуется; возвращает 200 и {"status":"ok"}.
     """
     base = Path(__file__).resolve().parents[2] / "data" / "uploads" / upload_id
     base.mkdir(parents=True, exist_ok=True)
     (base / "_INGEST_OK").write_text("ok")
-    return {"upload_id": upload_id, "status": "saved"}
+    return {"upload_id": upload_id, "status": "ok"}
