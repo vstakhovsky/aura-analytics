@@ -1,0 +1,24 @@
+name: Spec & Contracts
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+
+jobs:
+  spec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install deps
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y fonts-liberation libnss3 libxss1 libasound2 libatk-bridge2.0-0 libgtk-3-0
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt || true
