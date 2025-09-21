@@ -1,9 +1,6 @@
-.DS_Store
+.venv/
 __pycache__/
 *.pyc
-.env
-.vscode/
-.idea/
+*.pyo
+*.DS_Store
 dist/
-build/
-reports/

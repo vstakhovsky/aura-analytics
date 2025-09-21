@@ -15,21 +15,18 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Ajv CLI
-        run: npm i -g ajv-cli@5
-
-      - name: Versions
+      - name: Show versions and files
         run: |
           node -v
           npm -v
-          ajv -v
+          ls -la spec/schemas
+          ls -la spec/samples
 
-      - name: Validate JSON Schemas (report -> insight/hypothesis)
+      - name: Validate JSON Schemas + sample
         run: |
-          ajv validate \
+          npx --yes ajv-cli@5 validate \
+            --spec=draft2020 --strict=false --allowUnionTypes --all-errors \
             -s spec/schemas/report.schema.json \
             -r spec/schemas/insight.schema.json \
             -r spec/schemas/hypothesis.schema.json \
-            -d spec/samples/report.valid.json \
-            --spec=draft2020 \
-            --strict=false
+            -d spec/samples/report.valid.json
