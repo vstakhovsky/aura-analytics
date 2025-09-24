@@ -1,0 +1,45 @@
+# Spec Kit map for Aura Analytics
+version: 1
+product: "Aura Analytics"
+areas:
+  - name: Upload Data
+    capabilities:
+      - name: Accept files
+        description: User uploads CSV/Excel/JSON/Parquet; we persist and index columns.
+        contracts:
+          - file: ../contracts/upload.contract.json
+        acceptance:
+          - id: up-001
+            text: "POST /api/upload accepts 1..N files (<=10MB each), returns upload_id."
+          - id: up-002
+            text: "Stored under data/uploads/<upload_id> with original filenames."
+  - name: Agents Orchestrator
+    capabilities:
+      - name: Run agents on uploaded data
+        description: Trigger N agents -> Insights/Hypotheses/Figures -> Report.
+        contracts:
+          - file: ../contracts/insight.schema.json
+          - file: ../contracts/hypothesis.schema.json
+          - file: ../contracts/report.schema.json
+        acceptance:
+          - id: ag-001
+            text: "Each agent returns ≥2 insights, ≥1 hypothesis, ≥1 figure path."
+          - id: ag-002
+            text: "Orchestrator merges outputs; validator scorecard present."
+  - name: Validator
+    capabilities:
+      - name: JSON Schema + Evidence
+        description: Validate report JSON via AJV + python checks.
+        contracts:
+          - file: ../contracts/report.schema.json
+        acceptance:
+          - id: vd-001
+            text: "ajv-cli@5 validates report.json against report.schema.json"
+          - id: vd-002
+            text: "python validator produces scorecard with checks[] and passed=true/false"
+  - name: Results & Export
+    capabilities:
+      - name: Export MD/HTML/PDF
+        acceptance:
+          - id: ex-001
+            text: "UI shows tabs Run/Insights/Hypotheses/Validation and Export(MD/HTML/PDF)."
