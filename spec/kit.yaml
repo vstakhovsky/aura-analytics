@@ -1,0 +1,23 @@
+name: Aura Analytics
+version: 0.1.0
+owners:
+  - github: vstakhovsky
+principles:
+  - "Spec → Contract → Tests → Impl"
+  - "Validator as external judge, no 'empty' claims"
+  - "Reports follow Executive→Figures/Calcs→Hypotheses/PRD/Next Steps"
+contracts:
+  - spec/contracts/report.schema.json
+  - spec/contracts/insight.schema.json
+  - spec/contracts/hypothesis.schema.json
+requirements:
+  - spec/requirements/upload.md
+  - spec/requirements/reporting.md
+  - spec/requirements/validator.md
+agents:
+  - spec/agents/data_quality.md
+  - spec/agents/product.md
+  - spec/agents/financial.md
+playbooks:
+  - spec/playbooks/ab_test.md
+  - spec/playbooks/prd.md
