@@ -15,6 +15,7 @@ app.include_router(reporting_router)
 app.include_router(health_router)   # /health
 # Загрузка/инжест
 app.include_router(upload_router)   # /upload/  и  /ingest/{upload_id}
+app.include_router(report_router)  # /report
 app.include_router(analyze_router)
 app.include_router(insights_router)  # /insights   # /analyze
 app.include_router(analyze_router)
