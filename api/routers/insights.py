@@ -1,3 +1,4 @@
+# api/routers/insights.py
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -5,8 +6,8 @@ router = APIRouter()
 @router.get("/insights", tags=["insights"])
 def get_insights():
     """
-    Минимальный ответ, достаточный для тестов/демо.
-    Возвращаем статус и пару фиктивных инсайтов.
+    Minimal read-only Insights endpoint for tests/demo.
+    Returns a basic payload with status and a couple of fake insights.
     """
     return {
         "status": "ok",
