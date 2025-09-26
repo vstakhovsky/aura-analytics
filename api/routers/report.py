@@ -2,10 +2,10 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
-@router.get("/report", tags=["report"], operation_id="get_report")
+@router.get("/report", tags=["report"])
 def get_report():
     """
-    Minimal stub endpoint to satisfy tests.
-    Returns {"status": "ok"} with 200.
+    Minimal stub endpoint used by tests and CI.
+    Returns status ok.
     """
     return {"status": "ok"}

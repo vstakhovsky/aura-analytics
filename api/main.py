@@ -1,3 +1,4 @@
+from api.routers.report import router as report_router
 from fastapi import FastAPI
 
 from api.routers.reporting import router as reporting_router
